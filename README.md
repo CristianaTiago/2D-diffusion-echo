@@ -45,11 +45,6 @@ python test.py --image_size 256 --exp (experiment name) --num_channels 2 --num_c
 ```
 
 
-## Synthetic Image (example)
-
-![synthetic](fig/DIFFUSION_training_validation_results.png)
-
-
 ## Citation
 
 Please acknowledge this work and cite the paper as:

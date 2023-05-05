@@ -15,7 +15,7 @@ After cloning this repository and to use the scripts, it is recommended to creat
 
 
 ## Dataset
-You will have to define your training and validation datsets in .mat files, in the following way:
+You will have to define your training and validation datasets in .mat files, in the following way:
 
 ```
 input_path/
@@ -30,17 +30,18 @@ input_path/
 
 ## Training
 
-This code was tested on Ubuntu 20.04 and an NVIDIA GeForce RTX 2080 Ti GPU. Furthermore it was developed using Python v3.6.
+This code was tested on Ubuntu 22.04 and four NVIDIA GeForce RTX 2080 Ti GPUs. Furthermore it was developed using Python v3.10.
 
 ```
-pyhton train.py --dataroot (path to your dataroot folder) --batchSize 2 --depthSize 32 --input_nc 1 --output_nc 1 --which_model_netG unet_256 --which_model_netD n_layers --name (experiment name) --dataset_mode nodule --model pix2pix3d --nThreads 4 --no_flip --loadSize 256 --fineSize 256 --niter 100 --niter_decay 100 --pool_size 50 --norm batch --which_direction AtoB
+python trainRight.py --image_size 256 --exp (experiment name) --num_channels 2 --num_channels_dae 64 --ch_mult 1 1 2 2 4 4 --num_timesteps 4 --num_res_blocks 2 --batch_size 2 --contrast1 img --contrast2 lab --num_epoch 1000 --ngf 64 --embedding_type positional --use_ema --ema_decay 0.999 --r1_gamma 1. --z_emb_dim 256 --lr_d 1e-4 --lr_g 1.6e-4 --lazy_reg 10 --num_process_per_node 4 --save_content --local_rank 3 --input_path (path to training and validation datasets) --output_path (path where to save the training results)
+
 ```
 
 
 ## Inference
 
 ```
-pyhton test.py --dataroot (path to your dataroot folder)  --results_dir (path where to save the generated images) --ntest 1 --how_many 1 --batchSize 1 --depthSize 32 --input_nc 1 --output_nc 1 --which_model_netG unet_256 --which_model_netD n_layers --name (experiment name) --dataset_mode single --model test --nThreads 4 --no_flip --loadSize 256 --fineSize 256 --norm batch --which_direction AtoB --which_epoch 50
+python trainRight.py --image_size 256 --exp (experiment name) --num_channels 2 --num_channels_dae 64 --ch_mult 1 1 2 2 4 4 --num_timesteps 4 --num_res_blocks 2 --batch_size 1 --embedding_type positional --z_emb_dim 256 --contrast1 img --contrast2 lab --which_epoch 980 --gpu_chose 3 --input_path (path to test dataset) --output_path (path where to save the generated samples)
 ```
 
 

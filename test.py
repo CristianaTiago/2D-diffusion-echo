@@ -147,7 +147,6 @@ def load_checkpoint(checkpoint_dir, netG, name_of_network, epoch,device = 'cuda:
 #%%
 def sample_and_test(args):
     torch.manual_seed(42)
-    # device = 'cuda:0'
     torch.cuda.set_device(args.gpu_chose)
     device = torch.device('cuda:{}'.format(args.gpu_chose))
     epoch_chosen=args.which_epoch
@@ -163,16 +162,14 @@ def sample_and_test(args):
                                                num_workers=4)
     #Initializing and loading network
     gen_diffusive_1 = NCSNpp(args).to(device)
-    #gen_diffusive_2 = NCSNpp(args).to(device)
-
+    
     exp = args.exp
     output_dir = args.output_path
     exp_path = os.path.join(output_dir,exp)
 
     checkpoint_file = exp_path + "/{}_{}.pth"
     load_checkpoint(checkpoint_file, gen_diffusive_1,'gen_diffusive_1',epoch=str(epoch_chosen), device = device)
-    #load_checkpoint(checkpoint_file, gen_diffusive_2,'gen_diffusive_2',epoch=str(epoch_chosen), device = device)
-
+    
 
     T = get_time_schedule(args, device)
     
@@ -184,9 +181,7 @@ def sample_and_test(args):
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
     loss1 = np.zeros((1,len(data_loader)))
-    loss2 = np.zeros((1,len(data_loader)))
     syn_im1=np.zeros((256,256,len(data_loader)))
-    syn_im2=np.zeros((256,256,len(data_loader)))
     for iteration, (x , y) in enumerate(data_loader): 
         
         real_data = x.to(device, non_blocking=True)
@@ -201,53 +196,23 @@ def sample_and_test(args):
         source_data = to_range_0_1(source_data); source_data = source_data/source_data.max() 
         
         
-        fake_sample1 = crop(fake_sample1)
+        fake_sample1 = crop(fake_sample1) 
         real_data = crop(real_data)
-        source_data = crop(source_data)
+        source_data = crop(source_data) 
         syn_im1[:,:,iteration]=np.squeeze(fake_sample1.cpu().numpy())
-
-        loss1[0, iteration] = psnr(fake_sample1, real_data.cpu()).cpu().numpy()
-        print(str(iteration))
+        
+        loss1[0, iteration] = psnr(fake_sample1, real_data).cpu().numpy()
         fake_sample1 = torch.cat((source_data, fake_sample1, real_data),axis=-1)
         torchvision.utils.save_image(fake_sample1, '{}/{}_samples1_{}.jpg'.format(save_dir, phase, iteration), normalize=True)
 
-    #for iteration, (x , y) in enumerate(data_loader):
-
-    #    real_data = y.to(device, non_blocking=True)
-    #    source_data = x.to(device, non_blocking=True)
-        
-    #    x2_t = torch.cat((torch.randn_like(real_data),source_data),axis=1)
-    #    #diffusion steps
-    #    fake_sample2 = sample_from_model(pos_coeff, gen_diffusive_2, args.num_timesteps, x2_t, T, args)
-    
-        
-    #    fake_sample2 = to_range_0_1(fake_sample2) ; fake_sample2 = fake_sample2/fake_sample2.max()
-    #    real_data = to_range_0_1(real_data) ; real_data = real_data/real_data.max()
-    #    source_data = to_range_0_1(source_data); source_data = source_data/source_data.max()
-        
-        
-        
-    #    fake_sample2 = crop(fake_sample2)
-    #    real_data = crop(real_data)
-    #    source_data = crop(source_data)
-    #    syn_im2[:,:,iteration]=np.squeeze(fake_sample2.cpu().numpy())
-        
-    #    loss2[0, iteration] = psnr(fake_sample2, real_data).cpu().numpy()
-    #    print(str(iteration))
-    #    fake_sample2 = torch.cat((source_data, fake_sample2, real_data),axis=-1)
-    #    torchvision.utils.save_image(fake_sample2, '{}/{}_samples2_{}.jpg'.format(save_dir, phase, iteration), normalize=True)
 
     print(np.nanmean(loss1))
     np.save('{}/psnr_values1.npy'.format(save_dir), loss1)
-
-    #print(np.nanmean(loss2))
-    #np.save('{}/psnr_values2.npy'.format(save_dir), loss2)
 
     f = h5py.File(save_dir + '/im_syn.mat',  "w")
     f.create_dataset('images_'+args.contrast1+'syn', data=syn_im1)
     f.create_dataset('originalimg', data=real_data)
     f.create_dataset('label', data=source_data)
-    #f.create_dataset('images_'+args.contrast2+'syn', data=syn_im2)
     f.close()
             
 
@@ -324,7 +289,7 @@ if __name__ == '__main__':
     parser.add_argument('--t_emb_dim', type=int, default=256)
     parser.add_argument('--batch_size', type=int, default=1, help='sample generating batch size')
     
-    #optimizaer parameters    
+    #optimizer parameters    
     parser.add_argument('--lr_g', type=float, default=1.5e-4, help='learning rate g')
     parser.add_argument('--beta1', type=float, default=0.5,
                             help='beta1 for adam')
@@ -343,4 +308,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     sample_and_test(args)
-    

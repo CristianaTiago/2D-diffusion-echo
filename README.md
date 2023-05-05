@@ -15,22 +15,16 @@ After cloning this repository and to use the scripts, it is recommended to creat
 
 
 ## Dataset
-You will have to align your paired dataset in the following way:
+You will have to define your training and validation datsets in .mat files, in the following way:
 
 ```
-input_path/dataroot/
-  ├── trainA/
-    ├── image1.png
-    ├── image2.png
-    ├── ...
-  ├── trainB/
-    ├── mask1.png
-    ├── mask2.png
-    ├── ...
-  ├── testA/
-    ├── test_image1.png
-  ├── testB/
-    ├── test_mask1.png
+input_path/
+  ├── data_test_img.mat
+  ├── data_test_lab.mat
+  ├── data_train_img.mat
+  ├── data_train_lab.mat
+  ├── data_val_img.mat
+  ├── data_val_lab.mat
 ```
 
 
@@ -66,3 +60,7 @@ Please acknowledge this work and cite the paper as:
 	 pages = {98803--98815}
         }
 ```
+
+
+## Acknowledgments
+This code uses libraries from [SynDiff](https://github.com/icon-lab/SynDiff), [pGAN](https://github.com/icon-lab/pGAN-cGAN), [StyleGAN-2](https://github.com/NVlabs/stylegan2), and [DD-GAN](https://github.com/NVlabs/denoising-diffusion-gan) repositories.

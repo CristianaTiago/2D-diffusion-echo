@@ -41,7 +41,7 @@ python trainRight.py --image_size 256 --exp (experiment name) --num_channels 2 -
 ## Inference
 
 ```
-python trainRight.py --image_size 256 --exp (experiment name) --num_channels 2 --num_channels_dae 64 --ch_mult 1 1 2 2 4 4 --num_timesteps 4 --num_res_blocks 2 --batch_size 1 --embedding_type positional --z_emb_dim 256 --contrast1 img --contrast2 lab --which_epoch 980 --gpu_chose 3 --input_path (path to test dataset) --output_path (path where to save the generated samples)
+python test.py --image_size 256 --exp (experiment name) --num_channels 2 --num_channels_dae 64 --ch_mult 1 1 2 2 4 4 --num_timesteps 4 --num_res_blocks 2 --batch_size 1 --embedding_type positional --z_emb_dim 256 --contrast1 img --contrast2 lab --which_epoch 980 --gpu_chose 3 --input_path (path to test dataset) --output_path (path where to save the generated samples)
 ```
 
 

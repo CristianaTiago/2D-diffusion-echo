@@ -1,6 +1,6 @@
 torch==1.12.1
 torchvision==0.13.1
-cudatollkit==11.6.0
+cudatoolkit==11.6.0
 pillow
 matplotlib
 tensorboard

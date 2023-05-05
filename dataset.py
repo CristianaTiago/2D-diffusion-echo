@@ -1,16 +1,14 @@
 import torch.utils.data
-import numpy as np, h5py
-import random
+import numpy as np
 import scipy.io
 
 
 def CreateDatasetSynthesis(phase, input_path, contrast1 = 'T1', contrast2 = 'T2'):
 
-    target_file = input_path + "\data_{}_{}.mat".format(phase, contrast1)
-    print(target_file)
+    target_file = input_path + "data_{}_{}.mat".format(phase, contrast1)
     data_fs_s1=LoadDataSet(target_file, variable=contrast1)
     
-    target_file = input_path + "\data_{}_{}.mat".format(phase, contrast2)
+    target_file = input_path + "data_{}_{}.mat".format(phase, contrast2)
     data_fs_s2=LoadDataSet(target_file, variable=contrast2)
 
     dataset=torch.utils.data.TensorDataset(torch.from_numpy(data_fs_s1),torch.from_numpy(data_fs_s2))
@@ -20,7 +18,6 @@ def CreateDatasetSynthesis(phase, input_path, contrast1 = 'T1', contrast2 = 'T2'
 
 #Dataset loading from load_dir and converintg to 256x256 
 def LoadDataSet(load_dir, variable, padding = True, Norm = True):
-    #f = h5py.File(load_dir,'r')
     f = scipy.io.loadmat(load_dir)
     if np.array(f[variable]).ndim==3:
         data=np.expand_dims(np.transpose(np.array(f[variable]),(0,2,1)),axis=1)

@@ -11,7 +11,7 @@ The generative model relies on a DDM and a GAN to generate 2D echocardiography i
 
 After cloning this repository and to use the scripts, it is recommended to create a conda environment, activate it, and then install the required libraries.
 
-![3D echocardiography generation](fig/diagram_IEEE_access_July22.png)
+![ddm+gan](fig/DIFFUSION_ddm+gan.png)
 
 
 ## Dataset

@@ -50,16 +50,16 @@ python test.py --image_size 256 --exp (experiment name) --num_channels 2 --num_c
 Please acknowledge this work and cite the paper as:
 
 ```
-@article{tiago_data_2022,
-	 title = {A Data Augmentation Pipeline to Generate Synthetic Labeled Datasets of 3D Echocardiography Images Using a GAN},
-	 volume = {10},
+@article{tiago_domain_2023,
+	 title = {A Domain Translation Framework With an Adversarial Denoising Diffusion Model to Generate Synthetic Datasets of Echocardiography Images},
+	 volume = {11},
 	 issn = {2169-3536},
-	 doi = {10.1109/ACCESS.2022.3207177},
+	 doi = {10.1109/ACCESS.2023.3246762},
 	 journal = {IEEE Access},
-	 author = {Tiago, Cristiana and Gilbert, Andrew and Beela, Ahmed Salem and Aase, Svein Arne and Snare, Sten Roar and Šprem, Jurica and McLeod, Kristin},
-	 year = {2022},
-	 pages = {98803--98815}
-        }
+	 author = {Tiago, Cristiana and Snare, Sten Roar and Šprem, Jurica and McLeod, Kristin},
+	 year = {2023},
+	 pages = {17594--17602}
+	}
 ```
 
 

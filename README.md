@@ -15,7 +15,7 @@ After cloning this repository and to use the scripts, it is recommended to creat
 
 
 ## Dataset
-You will have to define your training and validation datasets in .mat files, in the following way:
+You will have to define your training and validation datasets in .mat files (shape: (#images, width, height)), in the following way:
 
 ```
 input_path/
